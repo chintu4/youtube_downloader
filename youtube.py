@@ -7,7 +7,7 @@ def show_alert(alert):
     messagebox.showinfo(alert, "This is a simple alert!")
 
 def open_file():
-    filepath = filedialog.asksaveasfilename()
+    filepath = filedialog.askdirectory()
     if filepath:
         pass
     else:
@@ -21,7 +21,7 @@ def submit_com():
     try:
         yt = YouTube(link)
     except:
-        print("Connection Error")
+        show_alert("Connection Error")
 
     # Create a list of available streams and their quality
     streams = yt.streams.filter(progressive=True, file_extension='mp4')
@@ -37,9 +37,9 @@ def submit_com():
             selected_stream = streams[selected_index]
             try:
                 selected_stream.download(output_path=SAVE_PATH)
-                print('Task Completed!')
+                show_alert('Task Completed!')
             except Exception as e:
-                print(f"Error: {e}")
+                show_alert(f"Error: {e}")
 
     download_button = tk.Button(r, text='Download Selected Quality', width=25, command=download_selected_quality)
     download_button.pack()
@@ -51,7 +51,7 @@ search_var = tk.StringVar()
 selected_quality = tk.IntVar()
 
 tk.Label(r, text="Enter the YouTube URL:").pack()
-tk.Entry(r, textvariable=search_var, width=25).pack()
+tk.Entry(r, textvariable=search_var, width=75).pack()
 
 download_button = tk.Button(r, text='Get Available Qualities', width=25, command=submit_com)
 download_button.pack()
